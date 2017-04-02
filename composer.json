@@ -1,0 +1,18 @@
+{
+  "name": "sam-knows/backend-test",
+  "require-dev": {
+    "phpunit/phpunit": "^5.7",
+    "phpspec/prophecy": "^1.6"
+  },
+  "autoload": {
+    "psr-4": {
+      "SamKnows\\BackendTest\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Lukas Normantas",
+      "email": "lukas.normantas@gmail.com"
+    }
+  ]
+}
