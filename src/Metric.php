@@ -56,4 +56,18 @@ class Metric {
         }
         return $metric;
     }
+
+    public function __toString()
+    {
+        switch($this->type) {
+            case self::TYPE_DOWNLOAD:
+                return 'download';
+            case self::TYPE_UPLOAD:
+                return 'download';
+            case self::TYPE_LATENCY:
+                return 'latency';
+            case self::TYPE_PACKET_LOSS:
+                return 'packet_loss';
+        }
+    }
 }

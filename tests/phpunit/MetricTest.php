@@ -34,4 +34,12 @@ class MetricTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(Metric::latency(), Metric::fromString('latency'));
         $this->assertEquals(Metric::packetLoss(), Metric::fromString('packet_loss'));
     }
+
+    /**
+     * @test
+     */
+    public function canConvertedToString()
+    {
+        $this->assertEquals("download", Metric::download()->__toString());
+    }
 }
