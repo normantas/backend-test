@@ -24,7 +24,28 @@ class HourTest extends PHPUnit_Framework_TestCase
      */
     public function canBeConvertedToString()
     {
-        $this->assertEquals((new Hour(2017, 1, 10, 1))->__toString(), "2017-01-10 01");
+        $this->assertEquals(
+            (new Hour(2017, 1, 10, 1))->__toString(),
+            "2017-01-10 01:00:00"
+        );
+        $this->assertEquals(
+            (new Hour(2017, 1, 10, 22))->__toString(),
+            "2017-01-10 22:00:00"
+        );
+    }
 
+    /**
+     * @test
+     */
+    public function canBeInstantiatedFromString()
+    {
+        $this->assertEquals(
+            new Hour(2017, 1, 10, 1),
+            Hour::fromTimestamp("2017-01-10 01:00:00")
+        );
+        $this->assertEquals(
+            new Hour(2017, 1, 10, 22),
+            Hour::fromTimestamp("2017-01-10 22:00:00")
+        );
     }
 }

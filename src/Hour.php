@@ -3,6 +3,7 @@
 namespace SamKnows\BackendTest;
 
 use DateTime;
+use InvalidArgumentException;
 
 class Hour {
 
@@ -22,10 +23,13 @@ class Hour {
     public function fromTimestamp(string $ts): Hour
     {
         $dateTime = DateTime::createFromFormat('Y-m-d H:i:s', $ts);
+        if (!$dateTime) {
+            throw new InvalidArgumentException("Cannot create Datetime from: '$ts'");
+        }
         $year = $dateTime->format('Y');
         $month = $dateTime->format('m');
         $day = $dateTime->format('d');
-        $hour = $dateTime->format('h');
+        $hour = $dateTime->format('H');
 
         return new self($year, $month, $day, $hour);
     }
@@ -35,6 +39,6 @@ class Hour {
         $day = str_pad($this->day, 2, "0", STR_PAD_LEFT);
         $month = str_pad($this->month, 2, "0", STR_PAD_LEFT);
         $hour = str_pad($this->hour, 2, "0", STR_PAD_LEFT);
-        return "{$this->year}-{$month}-{$day} {$hour}"; 
+        return "{$this->year}-{$month}-{$day} {$hour}:00:00"; 
     }
 }
