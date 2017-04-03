@@ -6,10 +6,9 @@ class ImportInteractor
 {
     private $dataPointService;
 
-    public function __construct()
+    public function __construct(DataPointService $service)
     {
-        $repo = new HourSummaryMemoryRepo(); 
-        $this->dataPointService = new DataPointService($repo);
+        $this->dataPointService = $service;
     }
 
     public function execute()

@@ -10,8 +10,10 @@ use SamKnows\BackendTest\DataPointService;
 $repo = new HourSummaryMemoryRepo;
 $dataPointService = new DataPointService($repo);
 
-$importer = new ImportInteractor();
+$repo = new HourSummaryMemoryRepo(); 
+$dataPointService = new DataPointService($repo);
+$importer = new ImportInteractor($dataPointService);
 $importer->execute();
 
-$reporter = new ReportInteractor();
+$reporter = new ReportInteractor($repo);
 $reporter->execute();
