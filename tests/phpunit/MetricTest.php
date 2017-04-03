@@ -23,4 +23,15 @@ class MetricTest extends PHPUnit_Framework_TestCase
         $this->assertNotEquals($a, $c);
         $this->assertNotEquals($b, $c);
     }
+
+    /**
+     * @test
+     */
+    public function canBeInstantiatedFromString()
+    {
+        $this->assertEquals(Metric::download(), Metric::fromString('download'));
+        $this->assertEquals(Metric::upload(), Metric::fromString('upload'));
+        $this->assertEquals(Metric::latency(), Metric::fromString('latency'));
+        $this->assertEquals(Metric::packetLoss(), Metric::fromString('packet_loss'));
+    }
 }

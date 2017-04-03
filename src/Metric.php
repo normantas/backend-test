@@ -35,4 +35,25 @@ class Metric {
     {
         return new self(self::TYPE_PACKET_LOSS); 
     }
+
+    public function fromString(string $type): Metric
+    {
+        switch($type) {
+            case 'download':
+                $metric = Metric::download();
+                break;
+            case 'upload':
+                $metric = Metric::upload();
+                break;
+            case 'latency':
+                $metric = Metric::latency();
+                break;
+            case 'packet_loss':
+                $metric = Metric::packetLoss();
+                break;
+            default:
+                throw new InvalidArgumentException("Cannot create metric");
+        }
+        return $metric;
+    }
 }
