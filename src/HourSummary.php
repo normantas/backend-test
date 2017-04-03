@@ -7,14 +7,14 @@ class HourSummary {
     private $unit;
     private $metric;
     private $hour;
-    private $value;
+    private $values;
 
     public function __construct(Unit $unit, Metric $metric, Hour $hour, float $value)
     {
         $this->unit = $unit;
         $this->metric = $metric;
         $this->hour = $hour;
-        $this->value = $value;
+        $this->values = [$value];
     }
 
     public function getUnit(): Unit
@@ -32,33 +32,43 @@ class HourSummary {
         return $this->hour;
     }
 
-    public function getValue(): float
+    public function getValues(): array
     {
-        return $this->value;
+        return $this->values;
     }
 
     public function getMean(): float
     {
-        return $this->value;
+        return array_sum($this->values)/count($this->values);
     }
 
     public function getMedian(): float
     {
-        return $this->value;
+        sort($this->values);
+        $count = count($this->values);
+        $middle = floor(($count-1)/2);
+        if ($count % 2) {
+            $median = $this->values[$middle];
+        } else {
+            $low = $this->values[$middle];
+            $high = $this->values[$middle+1];
+            $median = (($low+$high)/2);
+        }
+        return $median;
     }
 
     public function getMinimum(): float
     {
-        return $this->value;
+        return min($this->values);
     }
 
     public function getMaximum(): float
     {
-        return $this->value;
+        return max($this->values);
     }
 
     public function getSampleSize(): float
     {
-        return $this->value;
+        return count($this->values);
     }
 }

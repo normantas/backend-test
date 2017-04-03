@@ -21,11 +21,11 @@ class HourSummaryTest extends PHPUnit_Framework_TestCase
         $this->assertEquals(new Unit('unit-1'), $sum->getUnit());
         $this->assertEquals(Metric::download(), $sum->getMetric());
         $this->assertEquals(new Hour(2001, 1, 1, 1), $sum->getHour());
-        $this->assertEquals(3.14, $sum->getValue());
+        $this->assertEquals([3.14], $sum->getValues());
         $this->assertEquals(3.14, $sum->getMean());
         $this->assertEquals(3.14, $sum->getMedian());
         $this->assertEquals(3.14, $sum->getMinimum());
         $this->assertEquals(3.14, $sum->getMaximum());
-        $this->assertEquals(3.14, $sum->getSampleSize());
+        $this->assertEquals(1, $sum->getSampleSize());
     }
 }
