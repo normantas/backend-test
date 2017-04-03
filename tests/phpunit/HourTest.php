@@ -18,4 +18,13 @@ class HourTest extends PHPUnit_Framework_TestCase
         $this->assertNotEquals($a, $c);
         $this->assertNotEquals($b, $c);
     }
+
+    /**
+     * @test
+     */
+    public function canBeConvertedToString()
+    {
+        $this->assertEquals((new Hour(2017, 1, 10, 1))->__toString(), "2017-01-10 01");
+
+    }
 }
