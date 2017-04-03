@@ -41,4 +41,17 @@ class Hour {
         $hour = str_pad($this->hour, 2, "0", STR_PAD_LEFT);
         return "{$this->year}-{$month}-{$day} {$hour}:00:00"; 
     }
+
+    public function getTime(): string
+    {
+        $hour = str_pad($this->hour, 2, "0", STR_PAD_LEFT);
+        return "$hour:00:00";
+    }
+
+    public function getDate(): string
+    {
+        $day = str_pad($this->day, 2, "0", STR_PAD_LEFT);
+        $month = str_pad($this->month, 2, "0", STR_PAD_LEFT);
+        return "{$this->year}-{$month}-{$day}"; 
+    }
 }

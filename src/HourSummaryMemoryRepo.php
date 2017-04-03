@@ -15,13 +15,15 @@ class HourSummaryMemoryRepo implements HourSummaryWriteRepoInterface
     {
         $unit = $summary->getUnit()->__toString();
         $metric = $summary->getMetric()->__toString();
-        $key = $unit . '/' . $metric;
+        $time = $summary->getHour()->getTime();
+        $date = $summary->getHour()->getDate();
+
+        $key = $unit . '/' . $metric . '/';
         if (!isset($data[$key])) {
             $data[$key] = [];
         }
 
-        $hour = $summary->getHour()->__toString();
-        $data[$key][$hour] = [
+        $data[$key][$date] = [
             'mean' => $summary->getMean(),
             'median' => $summary->getMedian(),
             'minimum' => $summary->getMinimum(),
