@@ -9,12 +9,12 @@ class HourSummary {
     private $hour;
     private $values;
 
-    public function __construct(Unit $unit, Metric $metric, Hour $hour, float $value)
+    public function __construct(Unit $unit, Metric $metric, Hour $hour, array $values)
     {
         $this->unit = $unit;
         $this->metric = $metric;
         $this->hour = $hour;
-        $this->values = [$value];
+        $this->values = $values;
     }
 
     public function getUnit(): Unit
