@@ -15,3 +15,5 @@ CREATE TABLE hour_summary (
     maximum FLOAT,
     sample_size INT
 );
+
+ALTER TABLE `hour_summary` ADD INDEX `index_unit_metric_hour` (`unit`,`metric`,`hour`);
