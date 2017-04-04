@@ -72,4 +72,9 @@ class Metric {
                 return 'packet_loss';
         }
     }
+
+    public function getType(): int
+    {
+        return $this->type;
+    }
 }

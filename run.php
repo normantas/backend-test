@@ -4,7 +4,7 @@ require __DIR__.'/vendor/autoload.php';
 
 use SamKnows\BackendTest\ImportInteractor;
 use SamKnows\BackendTest\ReportInteractor;
-use SamKnows\BackendTest\HourSummaryMemoryRepo;
+use SamKnows\BackendTest\HourSummaryDbRepo;
 use SamKnows\BackendTest\DataPointService;
 use SamKnows\BackendTest\Unit;
 use SamKnows\BackendTest\Metric;
@@ -17,7 +17,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Application;
 
-$repo = new HourSummaryMemoryRepo(); 
+$conf = require __DIR__ . '/conf.php';
+$repo = new HourSummaryDbRepo($conf['db']); 
 $dataPointService = new DataPointService($repo);
 $filename = 'testdata.json';
 $inputProvider = new LocalFileInputProvider($filename);
@@ -66,6 +67,7 @@ class ReportCommand extends Command
         $metric = Metric::download();
         $hour = Hour::fromTimestamp('2017-02-22 10:00:00'); 
         $report = $this->interactor->execute($unit, $metric, $hour);
+        print_r($report);
 		$output->writeln('Report completed!');
     }
 
