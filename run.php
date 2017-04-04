@@ -110,4 +110,3 @@ $reportCmd->setInteractor($reporter);
 $application->add($reportCmd);
 
 $application->run();
-

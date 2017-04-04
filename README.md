@@ -1,86 +1,66 @@
 # SamKnows Technical Test (PHP/MySQL)
 
-> This is the technical test for our back-end (PHP/MySQL) positions at SamKnows. If you just stumbled across this and you are interested in joining our team, go to [our careers page](https://samknows.com/careers) to see if we are hiring.
+## Setup
 
-Thank you for your interest in becoming part of SamKnows. We would like you to complete the technical test below; We're excited to see your solution!
+This application need database to run, please see [config file](./conf.php).
 
-Before we start, we want to give you an idea of what we are looking for and what should be considered for your solution. For instance, while we do use Symfony 3 at SamKnows, for this particular test we ask you not to use any framework (packages are encouraged though!).
-
-## Dont’s
-- *Do not* use any full-stack frameworks (e.g. `symfony/symfony` or `laravel/laravel`)
-- *Do not* spend more than 2 hours on this test
-- *Do not* use anything other than MySQL
-- *Do not* use Docker, Vagrant or similar
-
-## Do’s
-- *Do* use appropriate packages (e.g. `symfony/console` or micro-frameworks)
-- *Do* use unit tests
-- *Do* use good design patterns
-- *Do* use dependency management
-- *Do* use efficient database schema
-- *Do* use consistent code styles
-- *Do* elaborate on what you would do, given the time
-
-## The Challenge
-For your test we are providing you with a JSON (see structure below). It contains a variety of “units” (A unique device which reports data) and data points for specific metrics that they tested between 1st and 30th of February 2017. Those units tested download and upload speed, as well as latency and packet loss.
-
-Your task is to fetch the data (whenever the application runs) and pre-process it to create an aggregated table. This should act as a store to see how good or bad every hour in the day performed. Imagine that instead of a few thousand, you would have to deal with trillions of data points – a reality for us at SamKnows!
-
-*So we would like for you to…*
-1. Aggregate all data points per unit, metric and hour
-2. Calculate the “mean“, “minimum“, “maximum“, and “median“ as well as “sample size“ for every hour (01 to 24)
-3. Persist the data into an efficient and optimised database schema
-
-Your solution needs to enable us to check a specific unit & metric (e.g. unit #1's download results), of a specific hour in the day (e.g. 9am or 1pm) and show the min, max, mean and median, as well as the number of data points from that time accross all the days in the same.
-
-## JSON
-Available here: `http://tech-test.sandbox.samknows.com/php-2.0/testdata.json`
-
-The structure is pretty simple and contains a few units for which we will give you 4 metrics (`download`, `upload`, `latency` and `packet_loss`. Every one of those metrics contains a large amount of data points with `timestamp` and `value`.
-
-```javascript
-[
-  {
-    "unit_id": 1,
-    "metrics": {
-      "download": [
-        {
-          "timestamp": "2017-02-10 17:00:00",
-          "value": 4670170
-        }
-	// [...]
-      ],
-      "upload": [
-        {
-          "timestamp": "2017-02-28 17:00:00",
-          "value": 1214720
-        },
-	// [...]
-      ],
-      "latency": [
-        {
-          "timestamp": "2017-02-22 16:00:00",
-          "value": 44868
-        },
-	// [...]
-      ],
-      "packet_loss": [
-        {
-          "timestamp": "2017-02-08 05:00:00",
-          "value": 0.12
-        },
-	// [...]
-      ]
-    }
-  },
-  [...]
-}
+For some reason, it was restricted to use Docker, but for development,
+easiest way to get MySql up and running is:
+```
+docker run -v $(pwd)/schema:/docker-entrypoint-initdb.d -p13306:3306 -e MYSQL_ROOT_PASSWORD=my-secret-pw mysql
 ```
 
-## Test Considerations
+[Composer](https://getcomposer.org/) has to be installed,
+and this command would fetch the dependencies:
+```
+	$ composer install
+```
 
-As mentioned above, we are particularly looking at unit tests, packages used, design patterns implemented, dependency management, the commits you made, appropriate database schema, consistent coding style and a few more things. We really want to get a good idea of how you structure your code architecture and how clean and efficient your code and database is.
+## Usage
 
-Last but not least, please make sure you test your code and make it as easy to run as possible (i.e. provide a descriptive and well-formatted README).
+To aggregate data from the input file use `import` sub-command:
+```
+	$ php run.php import
+```
 
-Good luck!
+Use `report` sub-command to see results of a specific hour of the month,
+provide unit ID, metric type, and a timestamp of that hour as arguments:
+```
+	$ php run.php report '1' 'download' '2017-02-22 10:00:00'
+	+-----------+---------+---------+---------+---------+-------------+
+	| Date      | Mean    | Median  | Minimum | Maximum | Sample Size |
+	+-----------+---------+---------+---------+---------+-------------+
+	| 2017-2-27 | 4659940 | 4659940 | 4659940 | 4659940 | 1           |
+	| 2017-2-26 | 4666410 | 4666410 | 4666410 | 4666410 | 1           |
+	| 2017-2-28 | 4663050 | 4663050 | 4663050 | 4663050 | 1           |
+	| 2017-2-25 | 4665030 | 4665030 | 4665030 | 4665030 | 1           |
+	+-----------+---------+---------+---------+---------+-------------+
+```
+
+To run unit tests:
+```
+	vendor/bin/phpunit --config tests/phpunit/phpunit.xml
+```
+
+To run behat integration test:
+```
+	$vendor/bin/behat -n -v
+```
+
+## My comments
+
+I have several comments about the test task:
+
+- It took me much longer than suggested 2 hours, hence the requirements.
+- Something is still left to do, like DI Container integration, input parameters validation.
+- The solution has not been properly manually tested, due to the lack of time.
+- If that was a real project I would had asked for clarifications on the task.
+- I was not able to use PHPStorm, without which refactoring PHP is difficult, as a result
+  all files are now resting in the same namespace.
+- It was started in TDD manner originally, however I had to stop writing tests
+  at some point to save time
+  (considering that nobody will have to maintain this app anyway).
+- Generally I find this task interesting, and I wish I could work on it longer.
+- If the due date could be prolonged, I would implement many improvements in design,
+  as well as the quality of the code, or at least I would like to be able to explain
+  what would I change if I had more time.
