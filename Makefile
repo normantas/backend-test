@@ -10,6 +10,6 @@ test:
 behat:
 	vendor/bin/behat -n -v
 
-all: test behat
+all: test behat demo
 
 .PHONY: demo test behat all
