@@ -4,14 +4,14 @@
 
 This application need database to run, please see [config file](./conf.php).
 
-For some reason, it was restricted to use Docker, but for development,
+It was restricted to use Docker, but for development,
 easiest way to get MySql up and running is:
 ```
 docker run -v $(pwd)/schema:/docker-entrypoint-initdb.d -p13306:3306 -e MYSQL_ROOT_PASSWORD=my-secret-pw mysql
 ```
 
 [Composer](https://getcomposer.org/) has to be installed,
-and this command would fetch the dependencies:
+and the dependencies have to be fetched:
 ```
 	$ composer install
 ```
@@ -46,6 +46,8 @@ To run behat integration test:
 ```
 	$vendor/bin/behat -n -v
 ```
+
+If you have `Make` installed, you can run tests using it.
 
 ## My comments
 
