@@ -61,15 +61,20 @@ class ReportCommand extends Command
 			->setName('report')
 			->setDescription('Reports monthly activity on certain hour.')
 			->setHelp('');
+
+		$this->addArgument('unit', InputArgument::REQUIRED, 'Unit ID');
+		$this->addArgument('metric', InputArgument::REQUIRED, 'Metric');
+		$this->addArgument('hour', InputArgument::REQUIRED, 'Timestamp of an hour');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $unit = new Unit('1');
-        $metric = Metric::download();
-        $hour = Hour::fromTimestamp('2017-02-22 10:00:00'); 
-        $report = $this->interactor->execute($unit, $metric, $hour);
+		// TODO: validation messages
+        $unit = new Unit($input->getArgument('unit'));
+        $metric = Metric::fromString($input->getArgument('metric'));
+        $hour = Hour::fromTimestamp($input->getArgument('hour')); 
 
+        $report = $this->interactor->execute($unit, $metric, $hour);
 
         $table = new Table($output);
         $table->setHeaders(

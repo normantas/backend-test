@@ -54,7 +54,7 @@ class Metric {
                 $metric = Metric::packetLoss();
                 break;
             default:
-                throw new InvalidArgumentException("Cannot create metric");
+                throw new InvalidArgumentException("Cannot create metric from '$type'");
         }
         return $metric;
     }
