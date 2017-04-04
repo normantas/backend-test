@@ -16,6 +16,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Console\Helper\Table;
+
 
 $conf = require __DIR__ . '/conf.php';
 $repo = new HourSummaryDbRepo($conf['db']); 
@@ -67,8 +69,23 @@ class ReportCommand extends Command
         $metric = Metric::download();
         $hour = Hour::fromTimestamp('2017-02-22 10:00:00'); 
         $report = $this->interactor->execute($unit, $metric, $hour);
-        print_r($report);
-		$output->writeln('Report completed!');
+
+
+        $table = new Table($output);
+        $table->setHeaders(
+			['Date', 'Mean', 'Median', 'Minimum', 'Maximum', 'Sample Size']
+		);
+		foreach ($report as $line) {
+            $table->addRow([
+				$line['date'],
+				$line['mean'],
+				$line['median'],
+				$line['minimum'],
+				$line['maximum'],
+				$line['sampleSize'],
+			]);
+		}
+        $table->render(); 
     }
 
 	public function setInteractor(ReportInteractor $interactor)

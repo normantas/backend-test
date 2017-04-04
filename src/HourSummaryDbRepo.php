@@ -12,7 +12,6 @@ class HourSummaryDbRepo
 
     public function __construct(array $config)
     {
-        print_r($config);
         $host = $config['host'];
         $port = $config['port'];
         $user = $config['user'];
@@ -67,13 +66,12 @@ class HourSummaryDbRepo
         $hourOfDay = $dateTime->format('H'); 
 
         $sth = $this->conn->prepare(
-            "SELECT mean, median, minimum, maximum, sample_size AS sampleSize " . 
+            "SELECT CONCAT_WS('-',year,month,day) as date, " .
+            "mean, median, minimum, maximum, sample_size AS sampleSize " . 
             "FROM hour_summary WHERE unit=? AND metric=? AND hour=?"
         );
         $sth->execute([$unit, $metric, $hourOfDay]);
 
-        $result = $sth->fetchAll();
-
-        return $result;
+        return $sth->fetchAll();
     }
 }
