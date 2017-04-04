@@ -5,15 +5,19 @@ namespace SamKnows\BackendTest;
 class ImportInteractor
 {
     private $dataPointService;
+    private $inputProvider;
 
-    public function __construct(DataPointService $service)
-    {
+    public function __construct(
+        DataPointService $service,
+        InputProviderInterface $provider
+    ) {
         $this->dataPointService = $service;
+        $this->inputProvider = $provider;
     }
 
     public function execute()
     {
-        $json = file_get_contents('testdata.json');
+        $json = $this->inputProvider->read();
         $data = json_decode($json);
         foreach ($data as $unit) {
             $unitId = $unit->unit_id;

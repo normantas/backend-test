@@ -7,6 +7,9 @@ demo:
 test:
 	vendor/bin/phpunit --config tests/phpunit/phpunit.xml
 
-all: test demo
+behat:
+	vendor/bin/behat -n -v
 
-.PHONY: demo test all
+all: test behat
+
+.PHONY: demo test behat all

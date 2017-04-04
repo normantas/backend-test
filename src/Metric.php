@@ -2,6 +2,8 @@
 
 namespace SamKnows\BackendTest;
 
+use InvalidArgumentException;
+
 class Metric {
 
     const TYPE_DOWNLOAD = 0;
